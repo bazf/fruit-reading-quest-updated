@@ -105,16 +105,21 @@ async function generateStory() {
 
   const prompt = document.getElementById('prompt').value.trim();
   const resultEl = document.getElementById('result7');
+  const generateButton = document.querySelector('#game7 button');
   resultEl.className = 'result';
 
   // Переконуємося, що всі потрібні дані присутні
   if (!apiKey || !model || !prompt) {
-    resultEl.textContent = 'Будь ласка, переконайтеся, що в URL або на сторінці вказано параметри apiKey та model, а також заповніть поле запиту.';
+    resultEl.innerHTML = 'Будь ласка, переконайтеся, що в URL або на сторінці вказано параметри apiKey та model, а також заповніть поле запиту.';
     resultEl.classList.add('error');
     return;
   }
 
-  resultEl.textContent = 'Генерація оповідання…';
+  // Деактивуємо кнопку та показуємо спінер
+  generateButton.disabled = true;
+  generateButton.textContent = 'Створюється...';
+  resultEl.innerHTML = '<div class="loading-spinner"><div class="spinner"></div>Генерація оповідання…</div>';
+  resultEl.className = 'result';
   try {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     const payload = {
@@ -145,11 +150,15 @@ async function generateStory() {
     const story = data.candidates && data.candidates.length > 0
       ? data.candidates[0].content.parts.map(part => part.text).join('')
       : 'Відповідь пуста.';
-    resultEl.textContent = story;
+    resultEl.innerHTML = story;
     resultEl.className = 'result success';
   } catch (err) {
     console.error(err);
-    resultEl.textContent = 'Не вдалося створити оповідання. Перевірте правильність API ключа та назви моделі.';
+    resultEl.innerHTML = 'Не вдалося створити оповідання. Перевірте правильність API ключа та назви моделі.';
     resultEl.className = 'result error';
+  } finally {
+    // Повертаємо кнопку в активний стан
+    generateButton.disabled = false;
+    generateButton.textContent = 'Створити оповідання';
   }
 }
