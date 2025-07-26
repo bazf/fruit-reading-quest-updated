@@ -1,5 +1,30 @@
 // Скрипти для ігор та інтеграції з мовною моделлю
 
+// Приховуємо поля для введення, якщо параметри вже є в URL
+function hideFieldsIfProvided() {
+  const params = new URLSearchParams(window.location.search);
+  const apiKeyFromURL = params.get('apiKey');
+  const modelFromURL = params.get('model');
+
+  const apiKeyField = document.getElementById('apiKey');
+  const modelField = document.getElementById('model');
+  const apiKeyLabel = apiKeyField ? apiKeyField.previousElementSibling : null;
+  const modelLabel = modelField ? modelField.previousElementSibling : null;
+
+  if (apiKeyFromURL && apiKeyFromURL.trim()) {
+    if (apiKeyField) apiKeyField.style.display = 'none';
+    if (apiKeyLabel) apiKeyLabel.style.display = 'none';
+  }
+
+  if (modelFromURL && modelFromURL.trim()) {
+    if (modelField) modelField.style.display = 'none';
+    if (modelLabel) modelLabel.style.display = 'none';
+  }
+}
+
+// Викликаємо функцію після завантаження сторінки
+window.addEventListener('DOMContentLoaded', hideFieldsIfProvided);
+
 function checkScramble() {
   const input = document.getElementById('answer1').value.trim().toUpperCase();
   const resultEl = document.getElementById('result1');
@@ -73,27 +98,35 @@ function checkBerry() {
 }
 
 async function generateStory() {
-  // Зчитуємо параметри apiKey та model з URL (рядка запиту).
+  // Зчитуємо параметри apiKey та model з URL (рядка запиту) або зі сторінки.
   const params = new URLSearchParams(window.location.search);
-  const apiKey = params.get('apiKey') ? params.get('apiKey').trim() : '';
-  const model = params.get('model') ? params.get('model').trim() : '';
+  let apiKey = params.get('apiKey') ? params.get('apiKey').trim() : (document.getElementById('apiKey') ? document.getElementById('apiKey').value.trim() : '');
+  let model = params.get('model') ? params.get('model').trim() : (document.getElementById('model') ? document.getElementById('model').value.trim() : '');
+
   const prompt = document.getElementById('prompt').value.trim();
   const resultEl = document.getElementById('result7');
   resultEl.className = 'result';
+
   // Переконуємося, що всі потрібні дані присутні
   if (!apiKey || !model || !prompt) {
-    resultEl.textContent = 'Будь ласка, переконайтеся, що в URL вказано параметри apiKey та model, а також заповніть поле запиту.';
+    resultEl.textContent = 'Будь ласка, переконайтеся, що в URL або на сторінці вказано параметри apiKey та model, а також заповніть поле запиту.';
     resultEl.classList.add('error');
     return;
   }
+
   resultEl.textContent = 'Генерація оповідання…';
   try {
     const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     const payload = {
+      system_instruction: {
+        parts: [
+          { text: "Ви — дитяча письмениця, яка створює захопливі та цікаві оповідання для дітей. Використовуйте просту мову, яскраві образи та емоції, щоб залучити маленьких читачів. Ваше завдання — створити цікаве оповідання на основі наданої теми та інструкцій. Завжди видавай лише оповідання!" }
+        ]
+      },
       contents: [
         {
           role: 'user',
-          parts: [ { text: prompt } ]
+          parts: [{ text: `${prompt}` }]
         }
       ]
     };

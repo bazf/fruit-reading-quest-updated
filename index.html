@@ -134,10 +134,19 @@
     </p>
     <div class="game" id="game7">
       <!--
-        У цій версії API‑ключ і назва моделі не вводяться користувачем, а передаються до сторінки через
-        URL‑параметри. Використовуйте параметри `apiKey` і `model` у рядку запиту, наприклад:
-        index.html?apiKey=YOUR_KEY&model=gemini-pro
+        API-ключ і назва моделі можуть передаватися через URL-параметри (`apiKey` та `model`).
+        Якщо вони не вказані, ви можете ввести їх у полях нижче.
       -->
+      <div class="api-settings">
+        <label for="apiKey">Ваш Google AI API ключ:</label>
+        <input type="text" id="apiKey" placeholder="Введіть API ключ…">
+        <label for="model">Назва моделі:</label>
+        <select id="model">
+          <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+          <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+          <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
+        </select>
+      </div>
       <label for="prompt">Ваш запит:</label>
       <textarea id="prompt" rows="3" placeholder="Про що б ви хотіли прочитати?"></textarea>
       <button onclick="generateStory()">Створити оповідання</button>
