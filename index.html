@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="uk">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Фруктовий читацький квест — Літо пригод</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    <h1>Фруктовий читацький квест — Літо пригод</h1>
+    <p class="intro">
+      Ласкаво просимо до нашого фруктового саду! На вас чекають сім станцій із цікавими завданнями, іграми та казковими
+      героями. Кожна станція подарує нові враження й допоможе відчути, що читати — це справжня пригода.
+    </p>
+  </header>
+
+  <!-- Станція 1 -->
+  <section id="station1" class="station">
+    <h2>Станція 1: Цитрусова галявина</h2>
+    <img src="images/station1.png" alt="Діти читають під цитрусовими деревами" />
+    <p>
+      На цій галявині ростуть лимони та апельсини, а серед ароматних дерев вас зустрічає дружня компанія читачів.
+      Вони підготували для вас загадку: складіть слово, переставивши літери у вказаному порядку.
+    </p>
+    <div class="game" id="game1">
+      <p>Переставте букви, щоб отримати назву фрукту: <strong id="scrambled1">И Л М Н О</strong></p>
+      <input type="text" id="answer1" placeholder="Введіть відповідь…" />
+      <button onclick="checkScramble()">Перевірити</button>
+      <p id="result1" class="result"></p>
+    </div>
+  </section>
+
+  <!-- Станція 2 -->
+  <section id="station2" class="station">
+    <h2>Станція 2: Яблучна алея</h2>
+    <img src="images/station2.png" alt="Діти та лісові тваринки читають біля яблунь" />
+    <p>
+      Під яблунями завжди затишно. Тут мешкають лісові тваринки, що обожнюють цікаві історії. Вони прочитають вам
+      уривок і запитають, чи уважно ви слухали.
+    </p>
+    <div class="game" id="game2">
+      <p><em>"У кошику було п’ять яблук. Хлопчик взяв одне для себе, дівчинка почастувала другом, а зайчик
+          пригощався останнім. Скільки яблук залишилося?"</em></p>
+      <input type="number" id="answer2" placeholder="Ваша відповідь…" />
+      <button onclick="checkApples()">Перевірити</button>
+      <p id="result2" class="result"></p>
+    </div>
+  </section>
+
+  <!-- Станція 3 -->
+  <section id="station3" class="station">
+    <h2>Станція 3: Грушева галерея</h2>
+    <img src="images/station3.png" alt="Сіруник читає книгу під грушевим деревом" />
+    <p>
+      У грушевій галереї вас зустрічає пустотливий сіркунчик, який любить загадувати загадки. Спробуйте відгадати, що
+      заховано в наступному рядку!
+    </p>
+    <div class="game" id="game3">
+      <p>"Я зелена, соковита, на деревах я висю. А коли достигну сильно – усі мене їдять. Що це?"</p>
+      <input type="text" id="answer3" placeholder="Ваша відповідь…" />
+      <button onclick="checkRiddle()">Відгадати</button>
+      <p id="result3" class="result"></p>
+    </div>
+  </section>
+
+  <!-- Станція 4 -->
+  <section id="station4" class="station">
+    <h2>Станція 4: Вишнева стежка</h2>
+    <img src="images/station4.png" alt="Дівчинка читає казку поні серед вишневого саду" />
+    <p>
+      Вишнева стежка веде до яскравих пригод разом із веселим поні. Щоб пройти далі, знайдіть синонім до слова
+      <em>«радісний»</em> серед запропонованих.
+    </p>
+    <div class="game" id="game4">
+      <select id="answer4">
+        <option value="">Обрати…</option>
+        <option value="сумний">Сумний</option>
+        <option value="веселий">Веселий</option>
+        <option value="темний">Темний</option>
+      </select>
+      <button onclick="checkSynonym()">Перевірити</button>
+      <p id="result4" class="result"></p>
+    </div>
+  </section>
+
+  <!-- Станція 5 -->
+  <section id="station5" class="station">
+    <h2>Станція 5: Персиковий лабіринт</h2>
+    <img src="images/station5.png" alt="Діти в персиковому лабіринті слухають фею" />
+    <p>
+      Чарівна фея запросить вас у невеличкий лабіринт. Щоб знайти правильний вихід, оберіть правильний напрямок у
+      підказці нижче.
+    </p>
+    <div class="game" id="game5">
+      <p>Яке слово стане завершенням виразу: «Книга — найкращий ...»?</p>
+      <select id="answer5">
+        <option value="">Обрати…</option>
+        <option value="друг">Друг</option>
+        <option value="дерево">Дерево</option>
+        <option value="капелюх">Капелюх</option>
+      </select>
+      <button onclick="checkProverb()">Перевірити</button>
+      <p id="result5" class="result"></p>
+    </div>
+  </section>
+
+  <!-- Станція 6 -->
+  <section id="station6" class="station">
+    <h2>Станція 6: Полуничний майдан</h2>
+    <img src="images/station6.png" alt="Діти та равлик грають у слова на полуничній галявині" />
+    <p>
+      На полуничному майданчику ви разом із равликом будете скласти слово. Заповніть пропуски, щоб скласти назву
+      улюбленої ягоди.
+    </p>
+    <div class="game" id="game6">
+      <p>П _ _ у ни _ я</p>
+      <input type="text" id="answer6" placeholder="Заповніть пропуски…" />
+      <button onclick="checkBerry()">Перевірити</button>
+      <p id="result6" class="result"></p>
+    </div>
+  </section>
+
+  <!-- Станція 7 -->
+  <section id="station7" class="station">
+    <h2>Станція 7: Садова бібліотека</h2>
+    <img src="images/station7.png" alt="Сова читає дітям у садовій бібліотеці" />
+    <p>
+      У садовій бібліотеці вас зустрічає мудра сова, яка знає безліч історій. Саме тут ви можете створити власну
+      історію за допомогою потужної мовної моделі. Для цього заповніть параметри нижче і натисніть «Створити
+      оповідання».
+    </p>
+    <div class="game" id="game7">
+      <!--
+        У цій версії API‑ключ і назва моделі не вводяться користувачем, а передаються до сторінки через
+        URL‑параметри. Використовуйте параметри `apiKey` і `model` у рядку запиту, наприклад:
+        index.html?apiKey=YOUR_KEY&model=gemini-pro
+      -->
+      <label for="prompt">Ваш запит:</label>
+      <textarea id="prompt" rows="3" placeholder="Про що б ви хотіли прочитати?"></textarea>
+      <button onclick="generateStory()">Створити оповідання</button>
+      <p id="result7" class="result"></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Фруктовий читацький квест. Усi права захищено.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
